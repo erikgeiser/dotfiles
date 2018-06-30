@@ -1,6 +1,7 @@
 #!/bin/bash
 
 RCFILES=(
+  "aliases"
   "gitconfig"
   "gitignore_global"
   "inputrc"
