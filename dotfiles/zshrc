@@ -100,3 +100,7 @@ bashcompinit
 if [ -f ~/.shellrc_physics ]; then
     . ~/.shellrc_physics
 fi
+
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
