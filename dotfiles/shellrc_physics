@@ -2,25 +2,25 @@ alias mountfs="sshfs lxportal2.physik.rwth-aachen.de:/home/home1/institut_3a/gei
 alias umountfs="diskutil unmount force /Users/erik/code/aachen-a3a-cms/sshfs"
 
 function vsync {
-    repo=${1-LBN}
-    rsync -azvP ~/code/aachen-3a-cms/$repo vportal:~/aachen-3a-cms
+  repo=${1-LBN}
+  rsync -azvP ~/code/aachen-3a-cms/$repo vportal:~/aachen-3a-cms
 }
 
 function lxsync {
-    repo=${1-LBN}
-    rsync -azvP ~/code/aachen-3a-cms/$repo lxportal2:~/aachen-3a-cms
+  repo=${1-LBN}
+  rsync -azvP ~/code/aachen-3a-cms/$repo lxportal2:~/aachen-3a-cms
 }
 
 function autovsync {
-    repo=${1-LBN}
-    echo "Syncing $repo"
-    vsync $repo && fswatch -0 -r ~/code/aachen-3a-cms/$repo -e index.lock | xargs -0 -n 1 -I{} rsync -azvP ~/code/aachen-3a-cms/$repo vportal:~/aachen-3a-cms
+  repo=${1-LBN}
+  echo "Syncing $repo"
+  vsync $repo && fswatch -0 -r ~/code/aachen-3a-cms/$repo -e index.lock | xargs -0 -n 1 -I{} rsync -azvP ~/code/aachen-3a-cms/$repo vportal:~/aachen-3a-cms
 }
 
 function autolxsync {
-    repo=${1-LBN}
-    echo "Syncing $repo"
-    lxsync $repo && fswatch -0 -r ~/code/aachen-3a-cms/$repo -e index.lock | xargs -0 -n 1 -I{} rsync -azvP ~/code/aachen-3a-cms/$repo lxportal2:~/aachen-3a-cms
+  repo=${1-LBN}
+  echo "Syncing $repo"
+  lxsync $repo && fswatch -0 -r ~/code/aachen-3a-cms/$repo -e index.lock | xargs -0 -n 1 -I{} rsync -azvP ~/code/aachen-3a-cms/$repo lxportal2:~/aachen-3a-cms
 }
 
 alias autolsync="fswatch -0 -r ~/code/aachen-a3a-cms/local/LNN -e index.lock | xargs -0 -n 1 -I{} rsync -avzP ~/code/aachen-a3a-cms/local/LNN/ lx3a05:~geiser/aachen-3a-cms/LNN"
@@ -33,11 +33,11 @@ alias clusterdocs="docker run --rm -it -v ~/code/vispa-documentation:/home -p 12
 alias meshcommander="docker run --rm -it -p 127.0.0.1:3000:3000  meshcommander"
 
 dcd() {
-    [ -z "$1" ] && host="lx3a05" || host="$1"
-    for i in {1..150}; do
-        echo "$i / 150 ($host)"
-        echo 'sleep 290 && exit' | ssh -ttq "$host" > /dev/null;
-    done
+  [ -z "$1" ] && host="lx3a05" || host="$1"
+  for i in {1..150}; do
+    echo "$i / 150 ($host)"
+    echo 'sleep 290 && exit' | ssh -ttq "$host" > /dev/null;
+  done
 }
 
 alias killlast="kill -9 %1"

@@ -98,9 +98,9 @@ bashcompinit
 # source /usr/local/bin/virtualenvwrapper.sh
 
 if [ -f ~/.shellrc_physics ]; then
-    . ~/.shellrc_physics
+  . ~/.shellrc_physics
 fi
 
 if [ -f ~/.aliases ]; then
-    . ~/.aliases
+  . ~/.aliases
 fi
