@@ -97,9 +97,10 @@ bashcompinit
 # export WORKON_HOME=~/.envs
 # source /usr/local/bin/virtualenvwrapper.sh
 
-if [ -f ~/.shellrc_physics ]; then
-  . ~/.shellrc_physics
-fi
+# Currently not needed:
+# if [ -f ~/.shellrc_physics ]; then
+#   . ~/.shellrc_physics
+# fi
 
 if [ -f ~/.aliases ]; then
   . ~/.aliases
