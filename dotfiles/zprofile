@@ -1,6 +1,8 @@
 export GOPATH="$HOME/code/go"
 export GO111MODULE=on
 
+export PIPENV_VENV_IN_PROJECT="enabled"
+
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
