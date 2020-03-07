@@ -1,0 +1,17 @@
+{
+    "telemetry.enableTelemetry": false,
+    "window.zoomLevel": 1,
+    "go.formatTool": "gofmt",
+    "workbench.statusBar.feedback.visible": false,
+    "telemetry.enableCrashReporter": false,
+    "editor.fontSize": 14,
+    "atomKeymap.promptV3Features": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "editor.formatOnPaste": true,
+    // "editor.fontLigatures": true,
+    "terminal.integrated.fontFamily": "Monaco",
+    "terminal.integrated.fontSize": 14,
+    "workbench.tree.indent": 18,
+    "workbench.tree.renderIndentGuides": "always",
+    "go.useLanguageServer": true
+}
