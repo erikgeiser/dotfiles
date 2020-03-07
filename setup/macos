@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+# Ask for privileges upfront
+sudo -v
+
+# Disalbe .DS_Store on network shares and USB drives
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+# Disable dashboard 
+defaults write com.apple.dashboard mcx-disabled -boolean YES
+
+# Always show full save menu
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
+
+# Expand print panel by default
+# defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+# defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+
+# Don't show attachments inline in Apple Mail
+defaults write com.apple.mail DisableInlineAttachmentViewing -bool yes
+
+# Prefer GPG over S/MIME
+defaults write org.gpgtools.gpgmail DefaultSecurityMethod -int 1
+
+# Save to disk (not to iCloud) by default
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+# Automatically quit printer app once the print jobs complete
+# defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+# Disable the “Are you sure you want to open this application?” dialog
+# defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+# Keyboard settings
+defaults write NSGlobalDomain NSAutomaticCapitalizationEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticPeriodSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
+defaults write NSGlobalDomain NSAutomaticSpellingCorrectionEnabled -bool false
+
+# Increase sound quality for Bluetooth headphones/headsets
+defaults write com.apple.BluetoothAudioAgent "Apple Bitpool Min (editable)" -int 40
+
+# Enable subpixel font rendering on non-Apple LCDs
+# Reference: https://github.com/kevinSuttle/macOS-Defaults/issues/17#issuecomment-266633501
+# defaults write NSGlobalDomain AppleFontSmoothing -int 1
+
+# Show the full URL in the Safari address bar (note: this still hides the scheme)
+#defaults write com.apple.Safari ShowFullURLInSmartSearchField -bool true
