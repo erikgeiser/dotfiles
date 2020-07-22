@@ -5,9 +5,7 @@ RCFILES=(
   "gitconfig"
   "gitignore_global"
   "inputrc"
-  # "npmrc"
   "screenrc"
-  # "shellrc_physics"
   "zprofile"
   "zshrc"
 )

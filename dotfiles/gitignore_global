@@ -5,3 +5,4 @@
 .ropeproject
 .idea
 .vscode
+.mypy_cache
