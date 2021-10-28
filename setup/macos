@@ -21,9 +21,6 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 # Don't show attachments inline in Apple Mail
 defaults write com.apple.mail DisableInlineAttachmentViewing -bool yes
 
-# Prefer GPG over S/MIME
-defaults write org.gpgtools.gpgmail DefaultSecurityMethod -int 1
-
 # Save to disk (not to iCloud) by default
 defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 
