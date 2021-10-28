@@ -193,10 +193,12 @@ alias chown="chown -c"
 alias mkdir="mkdir -v"
 alias rmdir="rmdir -v"
 
-if [[ `uname` == "Darwin" ]]; then
+if [[ "$(uname -s)" == "Darwin" ]]; then
   alias ls="ls -G"
 else
   alias ls="ls --color=auto"
+  alias pbcopy="xsel --clipboard --input"
+  alias pbpaste="xsel --clipboard --output"
 fi
 
 alias ll="ls -alhF"
