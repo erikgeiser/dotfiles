@@ -1,4 +1,3 @@
-
 # =============
 #  ZSH Options
 # =============
@@ -193,6 +192,12 @@ alias chmod="chmod -c"
 alias chown="chown -c"
 alias mkdir="mkdir -v"
 alias rmdir="rmdir -v"
+
+if [[ `uname` == "Darwin" ]]; then
+  alias ls="ls -G"
+else
+  alias ls="ls --color=auto"
+fi
 
 alias ll="ls -alhF"
 
