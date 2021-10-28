@@ -1,17 +1,44 @@
 {
-    "telemetry.enableTelemetry": false,
-    "window.zoomLevel": 1,
-    "go.formatTool": "gofmt",
-    "workbench.statusBar.feedback.visible": false,
-    "telemetry.enableCrashReporter": false,
-    "editor.fontSize": 14,
-    "atomKeymap.promptV3Features": true,
+    "telemetry.telemetryLevel": "off",
+    "telemetry.enableCrashReporter": false, // some extension still use this
+    "telemetry.enableTelemetry": false, // some extension still use this
+    "go.formatTool": "gofumpt",
+    "go.lintTool": "golangci-lint",
+    "go.useLanguageServer": true,
+    "gopls": {
+        "gofumpt": true,
+    },
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
+    "[go.mod]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true,
+        },
+    },
+    "editor.fontSize": 17,
     "editor.multiCursorModifier": "ctrlCmd",
-    "editor.formatOnPaste": true,
-    // "editor.fontLigatures": true,
     "terminal.integrated.fontFamily": "Monaco",
-    "terminal.integrated.fontSize": 14,
+    "terminal.integrated.fontSize": 16,
     "workbench.tree.indent": 18,
     "workbench.tree.renderIndentGuides": "always",
-    "go.useLanguageServer": true
+    "workbench.editor.limit.value": 5,
+    "workbench.editor.limit.enabled": true,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "window.zoomLevel": 0,
+    "workbench.startupEditor": "newUntitledFile",
+    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.diagnosticMode": "workspace",
+    "python.languageServer": "Pylance",
+    "python.linting.flake8Enabled": true,
+    "python.venvPath": "~/.cache/pypoetry/virtualenvs",
+    "editor.formatOnSave": true,
+    "go.toolsManagement.autoUpdate": true,
 }
