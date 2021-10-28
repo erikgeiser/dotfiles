@@ -1,115 +1,268 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-# Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+# =============
+#  ZSH Options
+# =============
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="simple"
+# Append command to the history file before execution
+setopt inc_append_history
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Reload history regularily
+setopt share_history
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Include timestamp in history
+setopt extended_history
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Ignore duplicate history entries (after another)
+setopt hist_ignore_dups
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# Do not store the "history" command itself
+setopt hist_no_store
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# Remove sperfluous blanks from history
+setopt hist_reduce_blanks
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# Ignore comments on the command line
+setopt interactive_comments
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+# Disable flow control
+setopt no_flow_control
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+# no beep
+unsetopt beep
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# do not suggest anything when a command is not found
+unset command_not_found_handle
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+# =================
+#  Auto completion
+# =================
+autoload -Uz compinit
+compinit
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# case insensitive intermittent matching
+setopt complete_in_word
+setopt always_to_end
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' special-dirs true
+# menu on tab with colors
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+_comp_options+=(globdots) # With hidden files
 
-source $ZSH/oh-my-zsh.sh
+# automatically load bash completion functions
+autoload -U +X bashcompinit && bashcompinit
 
-# User configuration
+# ==============
+#  Key bindings
+# ==============
+bindkey -e
 
-# export MANPATH="/usr/local/man:$MANPATH"
+backward-kill-dir () {
+  local WORDCHARS="${WORDCHARS:s#/#}"
+  zle backward-delete-word
+}
+zle -N backward-kill-dir
 
-# You may need to manually set your language environment
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+typeset -A key
+key=(
+    Home    "$terminfo[khome]"
+    End     "$terminfo[kend]"
+    Insert  "$terminfo[kich1]"
+    Backspace "$terminfo[kbs]"
+    Delete  "$terminfo[kdch1]"
+    Up      "$terminfo[kcuu1]"
+    Down    "$terminfo[kcud1]"
+    Left    "$terminfo[kcub1]"
+    Right   "$terminfo[kcuf1]"
+    PageUp  "$terminfo[kpp]"
+    PageDown "$terminfo[knp]"
+    CLeft   "$terminfo[kLFT5]"
+    CRight  "$terminfo[kRIT5]"
+)
+[[ -n "$key[Home]"      ]] && bindkey -- "$key[Home]"       beginning-of-line
+[[ -n "$key[End]"       ]] && bindkey -- "$key[End]"        end-of-line
+[[ -n "$key[PageUp]"    ]] && bindkey -- "$key[PageUp]"     beginning-of-history
+[[ -n "$key[PageDown]"  ]] && bindkey -- "$key[PageDown]"   end-of-history
+[[ -n "$key[Delete]"    ]] && bindkey -- "$key[Delete]"     delete-char
+[[ -n "$key[CLeft]"     ]] && bindkey -- "$key[CLeft]"      backward-word
+[[ -n "$key[CRight]"    ]] && bindkey -- "$key[CRight]"     forward-word
+[[ -n "$key[Up]"        ]] && bindkey -- "$key[Up]"         up-line-or-beginning-search
+[[ -n "$key[Down]"      ]] && bindkey -- "$key[Down]"       down-line-or-beginning-search
+
+# alternatives for wonky terminals (find out with 'showkey -a')
+
+bindkey -- "^[[H"       beginning-of-line
+bindkey -- "^[[1~"      beginning-of-line
+bindkey -- "^[[F"       end-of-line
+bindkey -- "^[[4"       end-of-line
+bindkey -- "^[[1;5D"    backward-word
+bindkey -- "^[[1;5C"    forward-word
+bindkey -- "^[[3;5~"    delete-word
+bindkey -- "^H"         backward-kill-dir # ctrl + backspace
+bindkey -- "^[^H"       backward-kill-dir # alt + backspace
+bindkey -- "^R"         history-incremental-search-backward
+bindkey -- "^[[A"       up-line-or-beginning-search
+bindkey -- "^[[B"       down-line-or-beginning-search
+
+# =======
+#  Misc.
+# =======
+
+# Automatically set terminal title
+case $TERM in
+  xterm*)
+    precmd () {
+      if [[ -z $SSH_CONNECTION ]]; then
+        print -Pn "\e]0;$0 (%~)\a"
+      else
+        print -Pn "\e]0;%n@%m $0 (%~)\a"
+      fi
+    }
+    preexec () {
+      if [[ -z $SSH_CONNECTION ]]; then
+        print -Pn "\e]0;$1 (%c)\a"
+      else
+        print -Pn "\e]0;%n@%m $1 (%c)\a"
+      fi
+    }
+    ;;
+esac
+
+# Load direnv hook
+if type "direnv" > /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+# Load iTerm hook
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# =============
+#  Environment
+# =============
+export LESS_TERMCAP_mb=$'\E[1;31m'     # begin bold
+export LESS_TERMCAP_md=$'\E[1;36m'     # begin blink
+export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+export LESS_TERMCAP_so=$'\E[01;44;33m' # begin reverse video
+export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+# Preferred editor for local and remote sessions
+export VISUAL='code'
+export EDITOR='vim'
+export SUDO_EDITOR=$EDITOR
+export PAGER='less'
+
+# History
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=10000000
+export HISTFILESIZE=1000000
+export SAVEHIST=1000000
+
+# Nice colors for jq
+export JQ_COLORS="1;31:1;31:1;31:1;31:1;32:1;37:1;37"
+
+# Language
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='vim'
+# =======================
+#  Aliases and functions
+# =======================
+
+if type "nvim" > /dev/null; then
+  alias vim="nvim"
 fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+alias vi='vim'
+alias view="vim -R"
+alias vimdiff="vim -d"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
+alias cp="cp -v"
+alias mv="mv -v"
+alias ln="ln -v"
+alias rm="rm -v"
+alias chmod="chmod -c"
+alias chown="chown -c"
+alias mkdir="mkdir -v"
+alias rmdir="rmdir -v"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ll="ls -alhF"
 
-
-# =================================================================================
-# Customization
-# =================================================================================
-
-zstyle ':completion:*' special-dirs true
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-autoload bashcompinit
-bashcompinit
-
-if [ -f ~/.aliases ]; then
-  . ~/.aliases
-fi
-
-# direnv hook
-_direnv_hook() {
-  trap -- '' SIGINT;
-  eval "$("/usr/local/bin/direnv" export zsh)";
-  trap - SIGINT;
+function mkcd () {
+  if (( ARGC != 1 )); then
+    printf 'usage: mkcd <new-directory>\n'
+    return 1;
+  fi
+  if [[ ! -d "$1" ]]; then
+    command mkdir -p "$1"
+  else
+    printf '`%s'\'' already exists: cd-ing.\n' "$1"
+  fi
+  builtin cd "$1"
 }
-typeset -ag precmd_functions;
-if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
-  precmd_functions=( _direnv_hook ${precmd_functions[@]} )
+
+function mktmp() {
+	if [ -z "$1" ]
+	then
+		cd $(mktemp -d)
+	else
+		mkdir -p /tmp/$1 && cd /tmp/$1
+	fi
+}
+
+function pyprint() {
+  local ARGS="$@"
+  python -c "import math; import numpy as np; import os; import sys; print($ARGS)"
+}
+
+# ========
+#  Prompt
+# ========
+
+# VCS plugin (https://zsh.sourceforge.io/Doc/Release/User-Contributions.html#Version-Control-Information)
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr '✗'
+zstyle ':vcs_info:*' stagedstr '✔'
+zstyle ':vcs_info:*' formats ' %B%F{blue}(%b)%c%u%f%%b'
+
+setopt prompt_subst # promp subsitution for interactive prompts
+
+# Primary prompt
+if [[ -z $SSH_CONNECTION ]]; then
+  PROMPT='%B%(!.%F{red}.%F{green})%~${vcs_info_msg_0_}%f%b '
+else
+  # include username for SSH sessions
+  PROMPT='%F{yellow}%n@%m%f %F{red}%B%~%b%f %# ${vcs_info_msg_0_}'
 fi
-typeset -ag chpwd_functions;
-if [[ -z ${chpwd_functions[(r)_direnv_hook]} ]]; then
-  chpwd_functions=( _direnv_hook ${chpwd_functions[@]} )
-fi
+
+# Secondary prompt
+PS2='%F{red}\%f '
+# Selection prompt used within a select loop.
+PS3='?# '
+# Execution trace prompt (setopt xtrace). default: '+%N:%i>'
+PS4='+%N:%i:%_> '
+
+# =========
+#  Plugins
+# =========
+
+_load_plugin_if_available() {
+  plugin="$HOME/.zsh/$1/$1.plugin.zsh"
+  if [ -f "${plugin}" ]; then
+    source "${plugin}"
+  fi
+}
+
+_load_plugin_if_available zsh-syntax-highlighting
+_load_plugin_if_available zsh-autosuggestions
