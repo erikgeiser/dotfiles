@@ -242,6 +242,7 @@ zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '✗'
 zstyle ':vcs_info:*' stagedstr '✔'
 zstyle ':vcs_info:*' formats ' %B%F{blue}(%b)%c%u%f%%b'
+zstyle ':vcs_info:*' actionformats ' %B%F{blue}(%b|%a)%c%u%f%%b'
 
 setopt prompt_subst # promp subsitution for interactive prompts
 
