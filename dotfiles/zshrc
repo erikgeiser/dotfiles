@@ -36,7 +36,11 @@ unset command_not_found_handle
 #  Auto completion
 # =================
 autoload -Uz compinit
-compinit
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' "$HOME/.zcompdump") ]; then
+  compinit
+else
+  compinit -C
+fi
 
 # case insensitive intermittent matching
 setopt complete_in_word
