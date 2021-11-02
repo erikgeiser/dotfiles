@@ -255,7 +255,7 @@ if [[ -z $SSH_CONNECTION ]]; then
   PROMPT='%B%(!.%F{red}.%F{green})%~${vcs_info_msg_0_}%f%b '
 else
   # include username for SSH sessions
-  PROMPT='%F{yellow}%n@%m%f %F{red}%B%~%b%f %# ${vcs_info_msg_0_}'
+  PROMPT='%F{yellow}%n@%m%f %F{red}%B%~%b%f${vcs_info_msg_0_} %(!.#.$) '
 fi
 
 # Secondary prompt
